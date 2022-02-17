@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: ./npm.yml
+      - uses: .github/workflows/npm.yml
 
       - name: Have a pizza party
         run: npx nx run-many --target food-party-cheese --all --parallel
