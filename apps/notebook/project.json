@@ -83,11 +83,68 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/notebook"],
+      "outputs": [
+        "coverage/apps/notebook"
+      ],
       "options": {
         "jestConfig": "apps/notebook/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "food": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "echo \"pizza \uD83C\uDF55\""
+      },
+      "configurations": {
+        "hamburger": {
+          "command": "echo \"hamburger \uD83C\uDF54\""
+        }
+      }
+    },
+    "party": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "echo \"party \uD83C\uDF89\","
+      }
+    },
+    "food-party": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "echo \"pizza \uD83C\uDF55\"",
+          "echo \"party \uD83C\uDF89\""
+        ],
+        "parallel": false
+      },
+      "configurations": {
+        "hamburger": {
+          "commands": [
+            "echo \"hamburger \uD83C\uDF54\"",
+            "echo \"party \uD83C\uDF89\""
+          ]
+        }
+      }
+    },
+    "food-party-cheese": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "echo \"cheese \uD83E\uDDC0\""
+      },
+      "configurations": {
+        "hamburger": {},
+        "donut": {}
+      },
+      "dependsOn": [
+        {
+          "target": "food",
+          "projects": "self"
+        },
+        {
+          "target": "party",
+          "projects": "self"
+        }
+      ]
     }
   },
   "tags": []
