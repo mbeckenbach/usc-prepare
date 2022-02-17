@@ -41,7 +41,11 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome notebook'
+      'Welcome notebook',
     );
+  });
+
+  it('should stay true', () => {
+    expect(true).toBeTruthy();
   });
 });
