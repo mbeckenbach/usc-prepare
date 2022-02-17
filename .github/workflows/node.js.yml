@@ -31,6 +31,6 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - name: Have a pizza party
-      - run: npx nx run-many --target food-party-cheese --all --parallel
+        run: npx nx run-many --target food-party-cheese --all --parallel
       - name: Have a hamburger party
-      - run: npx nx run-many --target food-party-cheese -c hamburger --all --parallel
+        run: npx nx run-many --target food-party-cheese -c hamburger --all --parallel
