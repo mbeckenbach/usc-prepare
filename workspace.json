@@ -1,7 +1,9 @@
 {
   "version": 2,
-  "projects": {},
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
+  "projects": {
+    "notebook": "apps/notebook",
+    "notebook-e2e": "apps/notebook-e2e",
+    "taskboard": "apps/taskboard",
+    "taskboard-e2e": "apps/taskboard-e2e"
   }
 }
