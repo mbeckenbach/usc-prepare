@@ -20,6 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/workflows/npm
+        with:
+          version: 16.x
+          cashHash: ${{ hashFiles('package-lock.json') }}
 
       - name: Have a pizza party
         run: npx nx run-many --target food-party-cheese --all --parallel
