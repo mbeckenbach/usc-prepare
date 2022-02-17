@@ -2,13 +2,26 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { NxWelcomeComponent } from './nx-welcome.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
 
 describe('AppComponent', () => {
+  let httpClient: HttpClient;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AppComponent, NxWelcomeComponent],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
+      declarations: [
+        AppComponent,
+        NxWelcomeComponent,
+      ],
     }).compileComponents();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    httpClient = TestBed.inject(HttpClient);
   });
 
   it('should create the app', () => {
