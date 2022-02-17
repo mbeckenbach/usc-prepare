@@ -46,3 +46,5 @@ jobs:
 
       - name: Have a hamburger party
         run: npx nx run-many --target food-party-cheese -c hamburger --all --parallel
+
+# Some test
