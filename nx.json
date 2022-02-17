@@ -33,7 +33,7 @@
     ]
   },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/nest"
   },
   "generators": {
     "@nrwl/angular:application": {

@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "backend": "apps/backend",
     "notebook": "apps/notebook",
     "notebook-e2e": "apps/notebook-e2e",
     "taskboard": "apps/taskboard",
