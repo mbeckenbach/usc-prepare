@@ -17,12 +17,32 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
       - uses: actions/checkout@v2
-      - uses: ./.github/workflows/npm
+
+      # TODO: Re-Use
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          version: 16.x
-          cashHash: ${{ hashFiles('package-lock.json') }}
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Cache node_modules
+        id: node-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install node_modules
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm ci
+      # TODO: Re-Use
 
       - name: Have a pizza party
         run: npx nx run-many --target food-party-cheese --all --parallel
