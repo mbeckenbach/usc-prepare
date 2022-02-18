@@ -26,19 +26,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
-
-      - name: Prepare node_modules
-        uses: ./.github/actions/npm_ci
+#      - uses: actions/checkout@v2
+      #        with:
+      #          ref: ${{ github.event.pull_request.head.ref }}
+      #          fetch-depth: 0
+      #
+      #      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+      #        uses: nrwl/nx-set-shas@v2
+      #
+      #      - name: Prepare node_modules
+      #        uses: ./.github/actions/npm_ci
+      - uses: ./.github/actions/prepare_nx
 
       - name: Lint affected
         run: npx nx affected --target=lint --parallel
 
       - name: Test affected
+        run: npx nx affected --target=test --parallel
+
+      - name: Build affected
         run: npx nx affected --target=test --parallel
