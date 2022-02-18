@@ -135,7 +135,7 @@ jobs:
 
       - name: End-to-End Tests
         run: npx nx affected --target=e2e --parallel
-        continue-on-error: false
+        continue-on-error: true # We want the output in that case
 
       - name: Archive e2e artifact
         if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
