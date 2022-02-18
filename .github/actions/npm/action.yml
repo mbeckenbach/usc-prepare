@@ -27,6 +27,11 @@ runs:
         path: node_modules
         key: node-modules-${{ hashFiles('package-lock.json') }}
 
+    - name: Install node_modules
+      if: steps.node-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
+
     - name: foo
       shell: bash
       run: echo node-modules-${{ hashFiles('package-lock.json') }}
