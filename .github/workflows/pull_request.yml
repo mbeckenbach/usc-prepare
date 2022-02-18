@@ -79,14 +79,14 @@ jobs:
         id: find-affected
         shell: bash
         # Returns: hasAffected, hasAffectedE2e, hasAffectedApps, apps
-        run: echo "::set-output name=affected::fromJSON($(node ./tools/find-affected.js))"
+        run: echo "::set-output name=affected::$(node ./tools/find-affected.js)"
 
       - name: Archive e2e artifact
-        if: ${{ steps.find-affected.outputs.affected.hasAffectedE2e }}
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
         uses: ./.github/actions/e2e_artifacts
 
       - name: Archive build artifact
-        if: ${{ steps.find-affected.outputs.affected.hasAffectedApps }}
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
         uses: ./.github/actions/build_artifacts
 
       # endregion
