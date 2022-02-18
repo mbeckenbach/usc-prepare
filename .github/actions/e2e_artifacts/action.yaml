@@ -19,7 +19,7 @@ runs:
       id: check_zip
       uses: andstor/file-existence-action@v1
       with:
-        files: "dist/cypress"
+        files: "e2e.zip"
 
     - name: Archive e2e artifact
       uses: actions/upload-artifact@v2

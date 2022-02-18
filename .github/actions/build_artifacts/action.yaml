@@ -4,12 +4,26 @@ description: "Uploads build artifacts as zip file"
 runs:
   using: "composite"
   steps:
+    - name: "Check directory existence"
+      id: check_directory
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "dist"
+
     - name: Zip build artifact
       shell: bash
+      if: steps.check_directory.outputs.files_exists == 'true'
       run: zip -r dist.zip dist -x dist/cypress/\*
+
+    - name: "Check zip existence"
+      id: check_zip
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "dist.zip"
 
     - name: Archive build artifact
       uses: actions/upload-artifact@v2
+      if: steps.check_zip.outputs.files_exists == 'true'
       with:
         name: dist
         path: dist.zip
