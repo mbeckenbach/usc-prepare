@@ -40,20 +40,18 @@ jobs:
     steps:
       # region: Checkout repository
 
-      - name: "Checkout"
-        uses: ./.github/actions/checkout
-      #      - name: "Checkout repository for running on branches"
-      #        uses: actions/checkout@v2
-      #        if: ${{ github.event_name != 'pull_request' }}
-      #        with:
-      #          fetch-depth: 0
-      #
-      #      - name: "Checkout repository for running on pull request"
-      #        uses: actions/checkout@v2
-      #        if: ${{ github.event_name == 'pull_request' }}
-      #        with:
-      #          ref: ${{ github.event.pull_request.head.ref }}
-      #          fetch-depth: 0
+      - name: "Checkout repository for running on branches"
+        uses: actions/checkout@v2
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          fetch-depth: 0
+
+      - name: "Checkout repository for running on pull request"
+        uses: actions/checkout@v2
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
 
       # endregion
 
@@ -101,5 +99,46 @@ jobs:
       - name: Archive build artifact
         if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
         uses: ./.github/actions/build_artifacts
+
+      # endregion
+
+  lint:
+
+    runs-on: ubuntu-latest
+    needs: [ dependencies ]
+
+    steps:
+      # region: Checkout repository
+
+      - name: "Checkout repository for running on branches"
+        uses: actions/checkout@v2
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          fetch-depth: 0
+
+      - name: "Checkout repository for running on pull request"
+        uses: actions/checkout@v2
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      # endregion
+
+      # region: Prepare
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+
+      - name: Prepare node_modules & cypress
+        uses: ./.github/actions/npm_ci
+
+      # endregion
+
+      # region actual test
+
+      - name: Lint
+        run: npx nx affected --target=lint --parallel
+        continue-on-error: true
 
       # endregion
