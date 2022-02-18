@@ -29,7 +29,7 @@ runs:
       id: cache-cypress-binary
       uses: actions/cache@v2
       with:
-        path: cypress/cache
+        path: ~/.cache/Cypress
         key: cypress-binary-${{ hashFiles('package-lock.json') }}
 
     - name: Install node_modules using npm ci

@@ -44,7 +44,7 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
 
-      - name: Prepare node_modules
+      - name: Prepare node_modules & cypress
         uses: ./.github/actions/npm_ci
 
       - name: Lint
