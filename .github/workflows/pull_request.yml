@@ -17,27 +17,20 @@ env:
   CYPRESS_CACHE_FOLDER: cypress/cache
 
 jobs:
-  #  dependencies:
-  #
-  #    runs-on: ubuntu-latest
-  #
-  #    steps:
-  #      - uses: actions/checkout@v2
-  #      - uses: ./.github/actions/npm_ci
 
   affected:
 
     runs-on: ubuntu-latest
 
     steps:
-      # For branches
+      # region: Checkout repository
+
       - name: "Checkout repository for running on branches"
         uses: actions/checkout@v2
         if: ${{ github.event_name != 'pull_request' }}
         with:
           fetch-depth: 0
 
-      # For pull requests
       - name: "Checkout repository for running on pull request"
         uses: actions/checkout@v2
         if: ${{ github.event_name == 'pull_request' }}
@@ -45,20 +38,38 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
 
+      # endregion
+
+      # region: Prepare
+
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
 
       - name: Prepare node_modules & cypress
         uses: ./.github/actions/npm_ci
 
-      #      - name: Lint
-      #        run: npx nx run-many --target=lint --all --parallel
-      #
-      #      - name: Test
-      #        run: npx nx run-many --target=test --all --parallel
-      #
-      #      - name: Build
-      #        run: npx nx run-many --target=build --all --parallel
+      # endregion
+
+      # region test
+
+      - name: Lint
+        run: npx nx run-many --target=lint --all --parallel
+        continue-on-error: true
+
+      - name: Test
+        run: npx nx run-many --target=test --all --parallel
+        continue-on-error: false
 
       - name: e2e
         run: npx nx run-many --target=e2e --all --parallel
+        continue-on-error: false
+
+      # endregion
+
+      # region build
+
+      - name: Build
+        run: npx nx run-many --target=build --all --parallel
+        continue-on-error: false
+
+      # endregion
