@@ -4,12 +4,26 @@ description: "Uploads e2e artifacts as zip file"
 runs:
   using: "composite"
   steps:
+    - name: "Check directory existence"
+      id: check_directory
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "dist/cypress"
+
     - name: Zip e2e artifact
       shell: bash
+      if: steps.check_directory.outputs.files_exists == 'true'
       run: zip -r e2e.zip dist/cypress
+
+    - name: "Check zip existence"
+      id: check_zip
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "dist/cypress"
 
     - name: Archive e2e artifact
       uses: actions/upload-artifact@v2
+      if: steps.check_zip.outputs.files_exists == 'true'
       with:
         name: e2e
         path: e2e.zip
