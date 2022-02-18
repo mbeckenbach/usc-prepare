@@ -6,9 +6,6 @@ inputs:
     default: '16.x'
     required: false
 
-env:
-  CYPRESS_CACHE_FOLDER: cypress/cache
-
 runs:
   using: "composite"
   steps:
@@ -32,7 +29,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: cypress/cache
-        key: cypress-binary-${{ hashFiles('package-lock.json') }}
+        key: cypress-binary-files-${{ hashFiles('package-lock.json') }}
 
     - name: Install node_modules using npm ci
       if: steps.node-cache.outputs.cache-hit != 'true'

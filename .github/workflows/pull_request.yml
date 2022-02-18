@@ -12,8 +12,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# We need to set this in order to cache the cypress binary files
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
 jobs:
-#  dependencies:
+  #  dependencies:
   #
   #    runs-on: ubuntu-latest
   #
