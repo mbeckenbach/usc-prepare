@@ -4,20 +4,20 @@ description: "Uploads e2e artifacts as zip file"
 runs:
   using: "composite"
   steps:
-    - name: Find affected
-      id: find-affected
-      shell: bash
-      # Returns: hasAffected, hasAffectedE2e, hasAffectedApps, apps
-      run: echo "::set-output name=affected::$(node ./tools/find-affected.js)"
+#    - name: Find affected
+    #      id: find-affected
+    #      shell: bash
+    #      # Returns: hasAffected, hasAffectedE2e, hasAffectedApps, apps
+    #      run: echo "::set-output name=affected::$(node ./tools/find-affected.js)"
 
     - name: Zip e2e artifact
-      if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
+      #      if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
       shell: bash
       # Zip dist/cypress e2e recordings
       run: zip -r e2e.zip dist/cypress
 
     - name: Archive e2e artifact
-      if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
+      #      if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
       uses: actions/upload-artifact@v2
       with:
         name: e2e
