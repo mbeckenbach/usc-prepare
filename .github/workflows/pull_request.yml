@@ -52,9 +52,11 @@ jobs:
 
       - name: Find affected
         id: find-affected
-        run: echo "::set-output name=affected::$(node ./tools/find-affected.js)"
+        run: echo "::set-output name=affected::$(node ./tools/find-affected-apps.js)"
       - name: hasAffected
-        run: hasAffected - ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
+        run: echo ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
+      - name: apps
+        run: echo ${{ fromJSON(steps.find-affected.outputs.affected).apps }}
 
       # region test
       #

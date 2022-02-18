@@ -1,0 +1,28 @@
+{
+  "projectType": "library",
+  "root": "libs/foo",
+  "sourceRoot": "libs/foo/src",
+  "prefix": "usc",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/libs/foo"
+      ],
+      "options": {
+        "jestConfig": "libs/foo/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/foo/src/**/*.ts",
+          "libs/foo/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
