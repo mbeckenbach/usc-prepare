@@ -20,17 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/npm_ci
-      - name: Zip artifact
-        run: zip node_modules.zip ./node_modules -r
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: node_modules
-          path: |
-            node_modules.zip
-          retention-days: 1
 
-  pizza:
+  lint:
 
     runs-on: ubuntu-latest
     needs: [ dependencies ]
@@ -38,9 +29,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/npm_ci
-      - run: npx nx run-many --target food-party-cheese --all --parallel
+      - run: npx nx run-many --target lint --all --parallel
 
-  hamburger:
+  test:
 
     runs-on: ubuntu-latest
     needs: [ dependencies ]
@@ -48,4 +39,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/npm_ci
-      - run: npx nx run-many --target food-party-cheese -c hamburger --all --parallel
+      - run: npx nx run-many --target test -c hamburger --all --parallel
