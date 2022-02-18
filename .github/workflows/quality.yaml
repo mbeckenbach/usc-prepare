@@ -20,6 +20,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Prepare node_modules & cypress
+        uses: ./.github/actions/npm_ci
+
       - name: Zip node_modules
         run: zip -r node_modules.zip node_modules
 
