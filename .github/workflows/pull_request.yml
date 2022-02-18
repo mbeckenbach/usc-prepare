@@ -56,11 +56,11 @@ jobs:
         run: npx nx run-many --target=lint --all --parallel
         continue-on-error: true
 
-      - name: Test
+      - name: Unit Tests
         run: npx nx run-many --target=test --all --parallel
         continue-on-error: false
 
-      - name: e2e
+      - name: End-to-End Tests
         run: npx nx run-many --target=e2e --all --parallel
         continue-on-error: false
 
@@ -69,7 +69,16 @@ jobs:
       # region build
 
       - name: Build
-        run: npx nx run-many --target=build --all --parallel
+        run: npx nx run-many --target=build -c production --all --parallel
         continue-on-error: false
+
+      - name: Zip build artifact
+        run: zip build.zip ./* -r
+
+      - name: Archive build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist
 
       # endregion

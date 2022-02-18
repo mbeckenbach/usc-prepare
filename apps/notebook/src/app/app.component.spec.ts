@@ -46,6 +46,6 @@ describe('AppComponent', () => {
   });
 
   it('should stay true', () => {
-    expect(false).toBeTruthy();
+    expect(true).toBeTruthy();
   });
 });
