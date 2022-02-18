@@ -24,6 +24,12 @@ const output = execSync(nxCommand)
 
 const parsedOutput = JSON.parse(output);
 
+const affectedEndToEndTests = parsedOutput.projects
+  .filter(affectedProject => affectedProject.endsWith('e2e'))
+  .filter(affectedProject =>
+    projects.find(project => project.name === affectedProject && project.type === 'apps')
+  );
+
 const affectedApps = parsedOutput.projects
   .filter(affectedProject => !affectedProject.endsWith('e2e'))
   .filter(affectedProject =>
@@ -31,7 +37,13 @@ const affectedApps = parsedOutput.projects
   );
 
 const affected = {
+  // Is there any affected app, lib or e2e?
   hasAffected: parsedOutput.projects.length > 0,
+  // Is there any affected e2e test?
+  hasAffectedE2e: affectedEndToEndTests.length > 0,
+  // Is there any affected app?
+  hasAffectedApps: affectedApps.length > 0,
+  // List of affected apps
   apps: affectedApps
 };
 

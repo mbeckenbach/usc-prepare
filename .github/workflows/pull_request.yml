@@ -48,19 +48,27 @@ jobs:
       - name: Prepare node_modules & cypress
         uses: ./.github/actions/npm_ci
 
+      - name: Find affected
+        id: find-affected
+        # Returns: hasAffected, hasAffectedE2e, hasAffectedApps, apps
+        run: echo "::set-output name=affected::$(node ./tools/find-affected.js)"
+
       # endregion
 
       # region test
 
       - name: Lint
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
         run: npx nx affected --target=lint --parallel
         continue-on-error: true
 
       - name: Unit Tests
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
         run: npx nx affected --target=test --parallel
         continue-on-error: false
 
       - name: End-to-End Tests
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedE2e }}
         run: npx nx affected --target=e2e --parallel
         continue-on-error: false
 
@@ -68,22 +76,17 @@ jobs:
 
       # region build
 
-      - name: Find affected apps
-        id: find-affected-apps
-        # Returns { hasAffected: bool, apps: string[] }
-        run: echo "::set-output name=affected::$(node ./tools/find-affected-apps.js)"
-
       - name: Build
-        if: ${{ fromJSON(steps.find-affected-apps.outputs.affected).hasAffected }}
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
         run: npx nx affected --target=build -c production --parallel
         continue-on-error: false
 
       - name: Zip build artifact
-        if: ${{ fromJSON(steps.find-affected-apps.outputs.affected).hasAffected }}
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
         run: zip -r build.zip . -i ./build/*
 
       - name: Archive build artifact
-        if: ${{ fromJSON(steps.find-affected-apps.outputs.affected).hasAffected }}
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
         uses: actions/upload-artifact@v2
         with:
           name: build
