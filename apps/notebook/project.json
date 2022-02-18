@@ -94,34 +94,34 @@
     "food": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "echo \"pizza \uD83C\uDF55\""
+        "command": "echo \"pizza 🍕\""
       },
       "configurations": {
         "hamburger": {
-          "command": "echo \"hamburger \uD83C\uDF54\""
+          "command": "echo \"hamburger 🍔\""
         }
       }
     },
     "party": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "echo \"party \uD83C\uDF89\","
+        "command": "echo \"party 🎉\","
       }
     },
     "food-party": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "echo \"pizza \uD83C\uDF55\"",
-          "echo \"party \uD83C\uDF89\""
+          "echo \"pizza 🍕\"",
+          "echo \"party 🎉\""
         ],
         "parallel": false
       },
       "configurations": {
         "hamburger": {
           "commands": [
-            "echo \"hamburger \uD83C\uDF54\"",
-            "echo \"party \uD83C\uDF89\""
+            "echo \"hamburger 🍔\"",
+            "echo \"party 🎉\""
           ]
         }
       }
@@ -129,7 +129,7 @@
     "food-party-cheese": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "command": "echo \"cheese \uD83E\uDDC0\""
+        "command": "echo \"cheese 🧀\""
       },
       "configurations": {
         "hamburger": {},

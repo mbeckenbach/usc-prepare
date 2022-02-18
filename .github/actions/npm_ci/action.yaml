@@ -1,0 +1,41 @@
+name: "Install node modules"
+description: "Runs npm ci or loads from cache"
+inputs:
+  node-version:
+    description: 'The nodejs version to use'
+    default: '16.x'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node.js ${{ inputs.node-version }}
+      if: steps.node-cache.outputs.cache-hit != 'true'
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Cache Node Modules
+      id: node-cache
+      uses: actions/cache@v2
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+
+    - name: Cache Cypress Binary
+      id: cache-cypress-binary
+      uses: actions/cache@v2
+      with:
+        path: cypress/cache
+        key: cypress-binary-files-${{ hashFiles('package-lock.json') }}
+
+    - name: Install node_modules using npm ci
+      if: steps.node-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
+
+    - name: Make sure that cypress is installed correctly
+      if: steps.cache-cypress-binary.outputs.cache-hit != 'true'
+      shell: bash
+      run: npx cypress install

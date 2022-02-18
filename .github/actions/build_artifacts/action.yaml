@@ -1,0 +1,15 @@
+name: "Upload build artifacts"
+description: "Uploads build artifacts as zip file"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Zip build artifact
+      shell: bash
+      run: zip -r dist.zip dist -x dist/cypress/\*
+
+    - name: Archive build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: dist.zip

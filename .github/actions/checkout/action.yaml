@@ -1,0 +1,20 @@
+name: "Checkout Repo"
+description: "Checks out the repo for nx affected use"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Checkout repository for running on branches"
+      shell: bash
+      uses: actions/checkout@v2
+      if: ${{ github.event_name != 'pull_request' }}
+      with:
+        fetch-depth: 0
+
+    - name: "Checkout repository for running on pull request"
+      shell: bash
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'pull_request' }}
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
+        fetch-depth: 0
