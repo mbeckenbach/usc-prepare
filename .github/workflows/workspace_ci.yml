@@ -27,7 +27,16 @@ jobs:
     needs: [ dependencies ]
 
     steps:
-      - name: Have a pizza party
-        run: echo pizza
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/npm_ci
+      - run: nx run-many --target food-party-cheese --all --parallel
 
-      # Some test
+  hamburger:
+
+    runs-on: ubuntu-latest
+    needs: [ dependencies ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./.github/actions/npm_ci
+      - run: nx run-many --target food-party-cheese -c hamburger --all --parallel
