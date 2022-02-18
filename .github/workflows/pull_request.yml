@@ -47,11 +47,14 @@ jobs:
       - name: Prepare node_modules
         uses: ./.github/actions/npm_ci
 
-      - name: Lint affected
+      - name: Lint
         run: npx nx run-many --target=lint --all --parallel
 
-      - name: Test affected
+      - name: Test
         run: npx nx run-many --target=test --all --parallel
 
-      - name: Build affected
+      - name: Build
         run: npx nx run-many --target=build --all --parallel
+
+      - name: e2e
+        run: npx nx run-many --target=e2e --all --parallel
