@@ -5,9 +5,13 @@
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "cypressConfig": "apps/notebook-e2e/cypress.json",
-        "devServerTarget": "notebook:serve:development"
+        "devServerTarget": "notebook:serve:development",
+        "outputPath": "dist/cypress/apps/notebook-e2e"
       },
       "configurations": {
         "production": {

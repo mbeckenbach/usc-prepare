@@ -5,9 +5,13 @@
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "cypressConfig": "apps/taskboard-e2e/cypress.json",
-        "devServerTarget": "taskboard:serve:development"
+        "devServerTarget": "taskboard:serve:development",
+        "outputPath": "dist/cypress/apps/taskboard-e2e"
       },
       "configurations": {
         "production": {
