@@ -57,7 +57,7 @@ jobs:
         run: npx nx run-many --target=build --all --parallel
 
       - name: tmp
-        run: cypress install
+        run: npx cypress install
 
       - name: e2e
         run: npx nx run-many --target=e2e --all --parallel
