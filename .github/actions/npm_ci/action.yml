@@ -31,4 +31,5 @@ runs:
       run: npm ci
 
     - name: Make sure that cypress is installed correctly
+      shell: bash
       run: npx cypress install
