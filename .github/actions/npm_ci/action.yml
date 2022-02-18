@@ -29,3 +29,6 @@ runs:
       if: steps.node-cache.outputs.cache-hit != 'true'
       shell: bash
       run: npm ci
+
+    - name: Cypress run
+      uses: cypress-io/github-action@v2
