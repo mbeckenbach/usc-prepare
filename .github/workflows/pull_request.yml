@@ -76,6 +76,9 @@ jobs:
 
       # region artifacts
 
+      - name: Archive e2e artifact
+        uses: ./.github/actions/e2e_artifacts
+
       - name: Archive build artifact
         uses: ./.github/actions/build_artifacts
 
