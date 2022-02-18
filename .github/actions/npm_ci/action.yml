@@ -5,10 +5,6 @@ inputs:
     description: 'The nodejs version to use'
     default: '16.x'
     required: false
-  files:
-    descriptions: 'Files that need to change'
-    default: ${{ hashFiles('package-lock.json') }}
-    required: false
 
 
 runs:
