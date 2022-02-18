@@ -27,6 +27,8 @@ jobs:
 
       - name: npm ci
         uses: ./.github/actions/npm
+        with:
+          shell: bash
 
 #      # TODO: Re-Use
 #      - name: Use Node.js ${{ matrix.node-version }}
