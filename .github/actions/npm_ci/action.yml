@@ -14,12 +14,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ inputs.node-version }}
-        cache: 'npm'
-
     - name: Cache node_modules
       id: node-cache
       uses: actions/cache@v2
@@ -27,11 +21,14 @@ runs:
         path: node_modules
         key: node-modules-${{ hashFiles('package-lock.json') }}
 
+    - name: Use Node.js ${{ inputs.node-version }}
+      if: steps.node-cache.outputs.cache-hit != 'true'
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
     - name: Install node_modules
       if: steps.node-cache.outputs.cache-hit != 'true'
       shell: bash
       run: npm ci
-
-    - name: foo
-      shell: bash
-      run: echo node-modules-${{ hashFiles('package-lock.json') }}
