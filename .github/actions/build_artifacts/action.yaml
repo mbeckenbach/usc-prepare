@@ -14,7 +14,7 @@ runs:
       if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
       shell: bash
       # Zip dist folder but exclude cypress e2e recordings
-      run: zip -r dist.zip dist -x dist/cypress**
+      run: zip -r dist.zip dist -x dist/cypress/\*
 
     - name: Archive build artifact
       if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
