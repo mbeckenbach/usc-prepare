@@ -18,8 +18,6 @@ const projects = Object.keys(workspaceFile.projects).map(key => {
   }
 })
 
-console.log(projects)
-
 const nxCommand = `npx nx print-affected`;
 const output = execSync(nxCommand)
   .toString('utf-8');
