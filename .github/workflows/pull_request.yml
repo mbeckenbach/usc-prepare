@@ -48,10 +48,10 @@ jobs:
         uses: ./.github/actions/npm_ci
 
       - name: Lint affected
-        run: npx nx affected --target=lint --parallel
+        run: npx nx run-many --target=lint --all --parallel
 
       - name: Test affected
-        run: npx nx affected --target=test --parallel
+        run: npx nx run-many --target=test --all --parallel
 
       - name: Build affected
-        run: npx nx affected --target=test --parallel
+        run: npx nx run-many --target=build --all --parallel
