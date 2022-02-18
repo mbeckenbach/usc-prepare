@@ -28,8 +28,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
       - uses: ./.github/actions/npm_ci
-      - run: npx nx run-many --target lint --all --parallel
+      - run: npx nx affected --target=lint --parallel
 
   test:
 
