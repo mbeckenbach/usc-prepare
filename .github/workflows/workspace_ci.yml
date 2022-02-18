@@ -20,12 +20,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/npm_ci
+      - name: Zip artifact
+        run: zip node_modules.zip ./node_modules -r
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
           name: node_modules
           path: |
-            node_modules
+            node_modules.zip
           retention-days: 1
 
   pizza:
