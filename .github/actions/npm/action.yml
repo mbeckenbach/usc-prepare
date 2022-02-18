@@ -19,3 +19,5 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'npm'
+    - name: foo
+      run: echo node-modules-${{ hashFiles('package-lock.json') }}
