@@ -30,5 +30,5 @@ runs:
       shell: bash
       run: npm ci
 
-    - name: Cypress run
-      uses: cypress-io/github-action@v2
+    - name: Make sure that cypress is installed correctly
+      run: npx cypress install
