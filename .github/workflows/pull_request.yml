@@ -13,35 +13,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  dependencies:
+#  dependencies:
+  #
+  #    runs-on: ubuntu-latest
+  #
+  #    steps:
+  #      - uses: actions/checkout@v2
+  #      - uses: ./.github/actions/npm_ci
+
+  affected:
 
     runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/npm_ci
-
-  lint:
-
-    runs-on: ubuntu-latest
-    needs: [ dependencies ]
 
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - uses: ./.github/actions/npm_ci
-      - run: npx nx affected --target=lint --parallel
 
-  test:
+      - name: Prepare node_modules
+        uses: ./.github/actions/npm_ci
 
-    runs-on: ubuntu-latest
-    needs: [ dependencies ]
+      - name: Lint affected
+        run: npx nx affected --target=lint --parallel
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/npm_ci
-      - run: npx nx run-many --target test -c hamburger --all --parallel
+      - name: Test affected
+        run: npx nx affected --target=lint --parallel
