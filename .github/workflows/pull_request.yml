@@ -50,10 +50,6 @@ jobs:
 
       # endregion
 
-      - name: Find affected apps
-        id: find-affected-apps
-        run: echo "::set-output name=affected::$(node ./tools/find-affected-apps.js)"
-
       # region test
 
       - name: Lint
@@ -71,6 +67,11 @@ jobs:
       # endregion
 
       # region build
+
+      - name: Find affected apps
+        id: find-affected-apps
+        # Returns { hasAffected: bool, apps: string[] }
+        run: echo "::set-output name=affected::$(node ./tools/find-affected-apps.js)"
 
       - name: Build
         if: ${{ fromJSON(steps.find-affected-apps.outputs.affected).hasAffected }}

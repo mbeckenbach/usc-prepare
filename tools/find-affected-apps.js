@@ -32,7 +32,7 @@ const affectedApps = parsedOutput.projects
 
 const affected = {
   hasAffected: parsedOutput.projects.length > 0,
-  apps: JSON.stringify(affectedApps)
+  apps: affectedApps
 };
 
 console.log(JSON.stringify(affected));
