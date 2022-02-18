@@ -18,6 +18,18 @@ env:
 
 jobs:
 
+  ensureDependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Prepare node_modules & cypress
+        uses: ./.github/actions/npm_ci
+
   affected:
 
     runs-on: ubuntu-latest
