@@ -18,7 +18,7 @@ env:
 
 jobs:
 
-  ensureDependencies:
+  dependencies:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,28 +27,33 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Just in case that we needed to run npm ci
+      # We don't want to do this multiple times in parallel
       - name: Prepare node_modules & cypress
         uses: ./.github/actions/npm_ci
 
   affected:
 
     runs-on: ubuntu-latest
+    needs: [ dependencies ]
 
     steps:
       # region: Checkout repository
 
-      - name: "Checkout repository for running on branches"
-        uses: actions/checkout@v2
-        if: ${{ github.event_name != 'pull_request' }}
-        with:
-          fetch-depth: 0
-
-      - name: "Checkout repository for running on pull request"
-        uses: actions/checkout@v2
-        if: ${{ github.event_name == 'pull_request' }}
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
+      - name: "Checkout"
+        uses: ./.github/actions/checkout
+      #      - name: "Checkout repository for running on branches"
+      #        uses: actions/checkout@v2
+      #        if: ${{ github.event_name != 'pull_request' }}
+      #        with:
+      #          fetch-depth: 0
+      #
+      #      - name: "Checkout repository for running on pull request"
+      #        uses: actions/checkout@v2
+      #        if: ${{ github.event_name == 'pull_request' }}
+      #        with:
+      #          ref: ${{ github.event.pull_request.head.ref }}
+      #          fetch-depth: 0
 
       # endregion
 
