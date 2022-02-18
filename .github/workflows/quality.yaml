@@ -13,6 +13,21 @@ on:
 env:
   CYPRESS_CACHE_FOLDER: cypress/cache
 
+# Pulls the cached folders
+.checkout-repo: &checkout-repo
+  - name: "Checkout repository for running on branches"
+    uses: actions/checkout@v2
+    if: ${{ github.event_name != 'pull_request' }}
+    with:
+      fetch-depth: 0
+
+  - name: "Checkout repository for running on pull request"
+    uses: actions/checkout@v2
+    if: ${{ github.event_name == 'pull_request' }}
+    with:
+      ref: ${{ github.event.pull_request.head.ref }}
+      fetch-depth: 0
+
 jobs:
 
   # Warm up dependencies in case of a package json change or empty cache
@@ -34,29 +49,29 @@ jobs:
 
     steps:
       # region: Checkout repository
+      <<: *checkout-repo
+        #      - name: "Checkout repository for running on branches"
+        #        uses: actions/checkout@v2
+        #        if: ${{ github.event_name != 'pull_request' }}
+        #        with:
+        #          fetch-depth: 0
+        #
+        #      - name: "Checkout repository for running on pull request"
+        #        uses: actions/checkout@v2
+        #        if: ${{ github.event_name == 'pull_request' }}
+        #        with:
+        #          ref: ${{ github.event.pull_request.head.ref }}
+        #          fetch-depth: 0
 
-      - name: "Checkout repository for running on branches"
-        uses: actions/checkout@v2
-        if: ${{ github.event_name != 'pull_request' }}
-        with:
-          fetch-depth: 0
+        # endregion
 
-      - name: "Checkout repository for running on pull request"
-        uses: actions/checkout@v2
-        if: ${{ github.event_name == 'pull_request' }}
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
+        # region: Prepare
 
-      # endregion
+        - name: Derive appropriate SHAs for base and head for `nx affected` commands
+          uses: nrwl/nx-set-shas@v2
 
-      # region: Prepare
-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
-
-      - name: Prepare node_modules & cypress
-        uses: ./.github/actions/npm_ci
+        - name: Prepare node_modules & cypress
+          uses: ./.github/actions/npm_ci
 
       # endregion
 
