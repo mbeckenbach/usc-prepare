@@ -50,6 +50,10 @@ jobs:
 
       # endregion
 
+      - name: Find affected
+        id: find-affected
+        run: echo "::set-output name=affected::$(node ./tools/find-affected.js)"
+
       # region test
       #
       #      - name: Lint
