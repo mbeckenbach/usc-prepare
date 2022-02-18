@@ -15,6 +15,20 @@ env:
 
 jobs:
 
+  dependencies:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Zip node_modules
+        run: zip -r node_modules.zip node_modules
+
+      - name: Upload node_modules artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: node_modules
+          path: node_modules.zip
+
   lint:
 
     runs-on: ubuntu-latest
