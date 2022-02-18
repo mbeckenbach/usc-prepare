@@ -4,8 +4,8 @@
 name: Pull Request
 
 on:
-  #  push:
-  #    branches: [ main ]
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
@@ -26,17 +26,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#      - uses: actions/checkout@v2
-      #        with:
-      #          ref: ${{ github.event.pull_request.head.ref }}
-      #          fetch-depth: 0
-      #
-      #      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-      #        uses: nrwl/nx-set-shas@v2
-      #
-      #      - name: Prepare node_modules
-      #        uses: ./.github/actions/npm_ci
-      - uses: ./.github/actions/prepare_nx
+      # For branches
+      - name: "Checkout repository for running on branches"
+        uses: actions/checkout@v2
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          fetch-depth: 0
+
+      # For pull requests
+      - name: "Checkout repository for running on pull request"
+        uses: actions/checkout@v2
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+
+      - name: Prepare node_modules
+        uses: ./.github/actions/npm_ci
 
       - name: Lint affected
         run: npx nx affected --target=lint --parallel
