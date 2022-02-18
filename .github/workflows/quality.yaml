@@ -89,7 +89,7 @@ jobs:
 
       # region actual work
 
-      - name: Lint
+      - name: Unit Tests
         run: npx nx affected --target=test --parallel
 
       # endregion
