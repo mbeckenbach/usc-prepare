@@ -55,18 +55,18 @@ jobs:
         run: echo "::set-output name=affected::$(node ./tools/find-affected-apps.js)"
 
       # region test
-      #
-      #      - name: Lint
-      #        run: npx nx run-many --target=lint --all --parallel
-      #        continue-on-error: true
-      #
-      #      - name: Unit Tests
-      #        run: npx nx run-many --target=test --all --parallel
-      #        continue-on-error: false
-      #
-      #      - name: End-to-End Tests
-      #        run: npx nx run-many --target=e2e --all --parallel
-      #        continue-on-error: false
+
+      - name: Lint
+        run: npx nx affected --target=lint --parallel
+        continue-on-error: true
+
+      - name: Unit Tests
+        run: npx nx affected --target=test --parallel
+        continue-on-error: false
+
+      - name: End-to-End Tests
+        run: npx nx affected --target=e2e --parallel
+        continue-on-error: false
 
       # endregion
 
@@ -74,7 +74,7 @@ jobs:
 
       - name: Build
         if: ${{ fromJSON(steps.find-affected-apps.outputs.affected).hasAffected }}
-        run: npx nx run-many --target=build -c production --all --parallel
+        run: npx nx affected --target=build -c production --parallel
         continue-on-error: false
 
       - name: Zip build artifact
