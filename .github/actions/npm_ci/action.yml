@@ -30,7 +30,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: ~/.cache/Cypress
-        key: cypress-binary-${{ hashFiles('package-lock.json') }}
+        key: cypress-binary-cash-${{ hashFiles('package-lock.json') }}
 
     - name: Install node_modules using npm ci
       if: steps.node-cache.outputs.cache-hit != 'true'
