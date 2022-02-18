@@ -35,4 +35,5 @@ const affected = {
   apps: JSON.stringify(affectedApps)
 };
 
-console.log(JSON.stringify(affected));
+// console.log(JSON.stringify(affected));
+console.log({hasAffected: false, apps: "[]"});
