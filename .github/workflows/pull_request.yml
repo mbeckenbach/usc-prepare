@@ -50,13 +50,9 @@ jobs:
 
       # endregion
 
-      - name: Find affected
+      - name: Find affected apps
         id: find-affected
         run: echo "::set-output name=affected::$(node ./tools/find-affected-apps.js)"
-      - name: hasAffected
-        run: echo ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
-      - name: apps
-        run: echo ${{ fromJSON(steps.find-affected.outputs.affected).apps }}
 
       # region test
       #
@@ -76,17 +72,20 @@ jobs:
 
       # region build
 
-      #      - name: Build
-      #        run: npx nx run-many --target=build -c production --all --parallel
-      #        continue-on-error: false
-      #
-      #      - name: Zip build artifact
-      #        run: zip -r build.zip . -i ./build/*
-      #
-      #      - name: Archive build artifact
-      #        uses: actions/upload-artifact@v2
-      #        with:
-      #          name: build
-      #          path: dist
+      - name: Build
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
+        run: npx nx run-many --target=build -c production --all --parallel
+        continue-on-error: false
+
+      - name: Zip build artifact
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
+        run: zip -r build.zip . -i ./build/*
+
+      - name: Archive build artifact
+        if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffected }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist
 
       # endregion
