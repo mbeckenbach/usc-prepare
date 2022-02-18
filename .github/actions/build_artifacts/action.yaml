@@ -13,11 +13,12 @@ runs:
     - name: Zip build artifact
       if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
       shell: bash
-      run: zip -r build.zip . -i ./dist/* -x ./dist/cypress/\*
+      # Zip dist folder but exclude cypress e2e recordings
+      run: zip -r dist.zip dist -x dist/cypress**
 
     - name: Archive build artifact
       if: ${{ fromJSON(steps.find-affected.outputs.affected).hasAffectedApps }}
       uses: actions/upload-artifact@v2
       with:
-        name: build
-        path: dist
+        name: dist
+        path: dist.zip
