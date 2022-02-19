@@ -12,5 +12,6 @@ export class AppComponent {
 
   constructor(private http: HttpClient) {
     this.http.get(`${environment.backendHost}/api`).subscribe(console.log);
+    console.log('Make me affected');
   }
 }

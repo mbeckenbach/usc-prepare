@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 
+jest.setTimeout(200000);
+
 describe('AppComponent', () => {
   let httpClient: HttpClient;
 
@@ -45,7 +47,11 @@ describe('AppComponent', () => {
     );
   });
 
-  it('should stay true', () => {
+  it('should stay true', (done) => {
     expect(true).toBeTruthy();
+
+    setTimeout(() => {
+      done();
+    }, 120000);
   });
 });
